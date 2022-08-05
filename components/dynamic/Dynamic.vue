@@ -11,7 +11,7 @@
 <script>
 export default {
   setup() {
-    const components = ['A','B','C'];
+    const components = ['A', 'B'];
     let componentName = null;
     const chgComponent = () => {
       let temp = components[Math.floor(Math.random() * components.length)];

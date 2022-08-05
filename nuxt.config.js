@@ -28,6 +28,7 @@ export default {
   components: [
     '~/components',
     '~/components/dynamic',
+    '~/components/html',
   ],
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
