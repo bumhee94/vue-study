@@ -4,6 +4,7 @@
 
 <script>
 export default {
+  name: 'C',
   setup() {
     const text = 'C';
 
