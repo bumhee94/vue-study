@@ -1,5 +1,7 @@
 <template>
-  <div class="">{{text}}</div>
+  <div :class="text">
+    <h2>{{text}}</h2>
+  </div>
 </template>
 
 <script>

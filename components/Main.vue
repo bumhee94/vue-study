@@ -1,10 +1,8 @@
 <template>
   <div class="">
     <h1>{{text}}</h1>
-    <!-- 배열식 동적 컴포넌트 -->
-    <NuxtDynamic v-for="component in components" :name="component" some-property="some-value" />
-    <!-- 단일 동적 컴포넌트 -->
-    <NuxtDynamic :name="componentName" some-property="some-value" />
+    <!-- 동적 컴포넌트 -->
+    <Dynamic />
   </div>
 </template>
 
@@ -12,16 +10,8 @@
 export default {
   setup() {
     const text = '메인이다';
-    const components = ['A','B','C'];
-    let componentName = null;
-    const chgComponent = () => {
-      let temp = components[Math.floor(Math.random() * components.length)];
-      console.log(temp);
-      componentName = temp;
-    }
-    chgComponent();
 
-    return { text, components, componentName, chgComponent }
+    return { text }
   }
 }
 </script>
