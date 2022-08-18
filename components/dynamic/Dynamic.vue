@@ -4,14 +4,14 @@
     <!-- 배열식 동적 컴포넌트 -->
     <NuxtDynamic v-for="component in components" :name="component" some-property="some-value" />
     <!-- 단일 동적 컴포넌트 -->
-    <NuxtDynamic :name="componentName" some-property="some-value" />
+    <NuxtDynamic :name="componentName" props-key="value" />
   </div>
 </template>
 
 <script>
 export default {
   setup() {
-    const components = ['A', 'B'];
+    const components = ['A', 'Params'];
     let componentName = null;
     const chgComponent = () => {
       let temp = components[Math.floor(Math.random() * components.length)];

@@ -6,9 +6,12 @@
 
 <script>
 export default {
-  name: 'B',
-  setup() {
-    const text = 'B';
+  name: 'Params',
+  props:{
+    propsKey: String
+  },
+  setup(props) {
+    const text = props.propsKey;
 
     return { text }
   }
