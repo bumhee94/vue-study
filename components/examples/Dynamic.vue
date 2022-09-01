@@ -11,7 +11,10 @@
 <script>
 export default {
   setup() {
-    const components = ['A', 'Params'];
+    setTimeout(() => {
+
+    }, 1000)
+    const components = ['A', 'Params']; // DB 컴포넌트
     let componentName = null;
     const chgComponent = () => {
       let temp = components[Math.floor(Math.random() * components.length)];

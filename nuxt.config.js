@@ -28,6 +28,7 @@ export default {
   components: [
     '~/components',
     '~/components/dynamic',
+    '~/components/examples',
     '~/components/html',
   ],
 
