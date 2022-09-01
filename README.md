@@ -5,6 +5,10 @@
  2) backent (springboot) 
     - 기본환경,어플리케이션 구성도,소프트웨어 구성,Layer 별 서비스 구조,Layer 별 기능 설명,Framework 구성 상세,프로젝트 구조,Layered 구조 및 모듈화
 
+## 관련 정보
+* nuxt dynamic import: https://dynamic.blokwise.io/usage
+* video.js: https://videojs.com/guides/vue/
+
 ## Build Setup
 
 ```bash
