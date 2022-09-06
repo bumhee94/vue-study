@@ -1,9 +1,13 @@
 <template>
   <div :class="text">
     <h2>{{text}}</h2>
-    <!-- vue 용 -->
-    <video ref="videoPlayer" preload="auto" class="video-js"></video>
-    <!-- static -->
+    <h2>YouTube</h2>
+    <!-- youtube 자동재생 설정: autoplay + 크롬자동재생 설정 -->
+    <iframe width="934" height="1087" src="https://www.youtube.com/embed/APxCc13Bzng?autoplay=1&mute=1" title="레이저 바실리스크 X 하이퍼스피드 분해 조립" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <h2>VideoJS</h2>
+    <!-- videojs vue 용 -->
+    <video ref="videoPlayer" autoplay preload="auto" class="video-js"></video>
+    <!-- videojs static -->
     <video
       id="my-video"
       class="video-js"
