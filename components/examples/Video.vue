@@ -6,7 +6,7 @@
     <iframe width="934" height="1087" src="https://www.youtube.com/embed/APxCc13Bzng?autoplay=1&mute=1" title="레이저 바실리스크 X 하이퍼스피드 분해 조립" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     <h2>VideoJS</h2>
     <!-- videojs vue 용 -->
-    <video ref="videoPlayer" autoplay preload="auto" class="video-js"></video>
+    <video ref="videoPlayer" autoplay muted preload="auto" class="video-js"></video>
     <!-- videojs static -->
     <video
       id="my-video"
@@ -16,6 +16,8 @@
       width="854"
       height="480"
       data-setup="{}"
+      autoplay
+      muted
     >
       <source src="https://d37hrtj0a49g18.cloudfront.net/2021-06/02_3233_46007/MP4/02_3233_46007_480p.mp4" type="video/mp4" />
       <source src="https://d37hrtj0a49g18.cloudfront.net/2021-06/02_3233_46007/MP4/02_3233_46007_480p.mp4" type="video/mp4" />
