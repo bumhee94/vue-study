@@ -16,6 +16,8 @@
       class="video-js"
       controls
       data-setup="{}"
+      autoplay
+      muted
     >
       <source src="https://d37hrtj0a49g18.cloudfront.net/2021-06/02_3233_46007/MP4/02_3233_46007_480p.mp4" type="video/mp4" />
       <source src="https://d37hrtj0a49g18.cloudfront.net/2021-06/02_3233_46007/MP4/02_3233_46007_480p.mp4" type="video/mp4" />
