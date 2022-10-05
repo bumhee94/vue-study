@@ -2,19 +2,19 @@
   <div :class="text">
     <h2>{{text}}</h2>
     <h2>YouTube</h2>
+    <button @click="isShow = !isShow">youtube on/off</button>
     <!-- youtube 자동재생 설정: autoplay + 크롬자동재생 설정 -->
-    <iframe width="934" height="1087" src="https://www.youtube.com/embed/APxCc13Bzng?autoplay=1&mute=1" title="레이저 바실리스크 X 하이퍼스피드 분해 조립" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <iframe v-if="isShow" src="https://www.youtube.com/embed/APxCc13Bzng?autoplay=1&mute=1" title="레이저 바실리스크 X 하이퍼스피드 분해 조립" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <div style="margin-bottom: 100px;"></div>
     <h2>VideoJS</h2>
     <!-- videojs vue 용 -->
-    <video ref="videoPlayer" autoplay preload="auto" class="video-js"></video>
+    <video ref="videoPlayer" playsinline muted class="video-js"></video>
+    <div style="margin-bottom: 100px;"></div>
     <!-- videojs static -->
     <video
       id="my-video"
       class="video-js"
       controls
-      preload="auto"
-      width="854"
-      height="480"
       data-setup="{}"
     >
       <source src="https://d37hrtj0a49g18.cloudfront.net/2021-06/02_3233_46007/MP4/02_3233_46007_480p.mp4" type="video/mp4" />
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, reactive } from 'vue'
 import videojs from 'video.js';
 import 'video.js/dist/video-js.min.css';
 
@@ -39,8 +39,9 @@ export default {
   name: 'Videojs',
   setup() {
     const text = 'Videojs';
-    // const videoPlayer = ref();
-    const player = ref();
+    const isShow = ref(false);
+    const playList = reactive([]);
+    // const player = ref({});
     const options = {
       // 자동실행 여부 => 동작 안함
       // autoplay: true,
@@ -54,27 +55,103 @@ export default {
           type: 'video/mp4'
         }
       ]
-    }
-    let timer = null;
+    };
+
+    // 화면 제어 => TODO: 스크롤 이벤트가 스크롤 시, 발생하지 않아서 확인 필요(overflow, body에 이벤트 주는 등 시도해보았지만, 제대로 잡히지 않았다)
+    const handleScroll = (e) => {
+      // console.log(e);
+      // video object 찾기
+      const objVideos = document.querySelectorAll('video');
+      // console.log(objVideos);
+      if (objVideos) {
+        console.log('video for >');
+        // for (let video of document.querySelectorAll('video')) {
+        for (let i = 0; i < objVideos.length; i++) {
+          const video = objVideos[i];
+          const addPlayerId = video.playerId;
+          // video가 없거나, playerId가 없으면 패스
+          if (!(video !== undefined && addPlayerId !== undefined)) {
+            continue;
+          } else {
+            // console.log(`top: ${video.getBoundingClientRect().top}  /bottom: ${video.getBoundingClientRect().bottom}`);
+          }
+          let isPlayList = false;
+          playList.forEach(obj => {
+            // 플레이 리스트에 동영상이 있는지 체크
+            if (obj.playerId === addPlayerId) {
+              isPlayList = true;
+              obj.yTop = video.getBoundingClientRect().top;   // 영상 상단 위치
+              obj.yBot = video.getBoundingClientRect().bottom;// 영상 하단 위치
+            }
+          });
+          // 플레이 리스트에 없으면, 목록 추가
+          if (!isPlayList) {
+            // console.log(`${video.playerId} 목록에 추가!`);
+            // console.log(video);
+            playList.push({
+              playerId: addPlayerId,
+              isPlaying: false,
+              yTop: video.getBoundingClientRect().top,
+              yBot: video.getBoundingClientRect().bottom
+            });
+          }
+        }
+        // console.log('추가된 플레이 리스트');
+        // console.log(playList);
+        playList.forEach((el,idx,list) => {
+          const yTop = el.yTop;
+          const yBot = el.yBot;
+          // 플레이 영역은 화면 1/10 ~ 9/10 영역에 영상 중앙이 위치해 있을 경우, 플레이 => TODO: 정확한 스크롤 위치가 잡히지 않아서 수정 필요
+          const psblTop = /* 스크롤 위치(보여지는 화면 상단 기준) */ window.scrollY + /* 브라우저에 보여지는 상단부터 하단까지의 높이 */ window.innerHeight / 10;
+          const psblBot = window.scrollY + window.innerHeight * 9 / 10;
+          console.log(`${yBot + ' > 0 && psblTop:' + psblTop + ' < yBot:' + yBot + ' && yTop:' + yTop + ' < psblBot:' + psblBot}`);
+          const isPlayY = yBot > 0 && psblTop < yBot && yTop < psblBot;
+          if (isPlayY && !el.isPlaying) {
+            console.log(`${el.playerId} is played.`);
+            el.isPlaying = true;
+            videojs(el.playerId).play();
+          } else if (!isPlayY && el.isPlaying) {
+            // 플레이 영역이 아닌 영상이 플레이 중일 때, 일시정지
+            console.log(`${el.playerId} is paused.`);
+            el.isPlaying = false;
+            videojs(el.playerId).pause();
+          }
+        });
+      }
+    };
 
     onMounted(() => {
-      console.log('vue setup on mounted.');
-      // timer = setInterval(() => {
-      //   console.log('timer area.');
-      //   console.log(player);
-      // }, 1000);
+      console.log('mounted called.');
+      window.addEventListener('scroll', handleScroll);
     });
 
-    return { text /*, videoPlayer */, player, options }
+    return { text, isShow/*, videoPlayer */, playList/*, player*/, options, handleScroll }
+  },
+  data: ()=> {
+    return {
+      player: {},
+      dispWidth: 100
+    }
   },
   mounted() {
     console.log('vue on mounted.');
+    this.dispWidth = window.innerWidth;
     this.player = videojs(this.$refs.videoPlayer, this.options, () => {
-      console.log('video playing...');
+      // console.log('video playing...');
       // autoplay 안됨.
       // this.options.autoplay = true;
-      console.log(this);
-    })
+      // console.log(this);
+    });
+    // document.addEventListener('scroll', this.handleScroll);
+
+    // this.player.on(['waiting', 'pause'], function(e) {
+    //   console.log(`${e} is paused.`)
+    //   // isPlaying = false;
+    // });
+    // this.player.on('playing', function(e) {
+    //   console.log(`${e} is playing.`)
+    //   // isPlaying = true;
+    // });
   }
 }
 </script>
