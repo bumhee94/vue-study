@@ -8,6 +8,8 @@
     <Video />
     <!-- 컨텐츠 내 태그 처리 -->
     <Html v-if="isShow" />
+
+    <dataTest/>
   </div>
 </template>
 
