@@ -59,12 +59,10 @@ export default {
 
     // 화면 제어 => TODO: 스크롤 이벤트가 스크롤 시, 발생하지 않아서 확인 필요(overflow, body에 이벤트 주는 등 시도해보았지만, 제대로 잡히지 않았다)
     const handleScroll = (e) => {
-      console.log("scroll########################################");
       // console.log(e);
       // video object 찾기
       const objVideos = document.querySelectorAll('video');
       const youtubes = document.querySelector("iframe").contentWindow;
-      console.log(youtubes);
       // console.log(objVideos);
       if (objVideos) {
         //console.log('video for >');
@@ -114,23 +112,11 @@ export default {
             console.log(`${el.playerId} is played.`);
             el.isPlaying = true;
             videojs(el.playerId).play();
-            console.log("yTop:::" + yTop);
-            console.log("yBot:::" + yBot);
-            console.log("psblTop:::" + psblTop);
-            console.log("psblBot:::" + psblBot);
-            console.log("scrollY:::" + window.scrollY);
-            console.log(`${yBot + ' > 0 && psblTop:' + psblTop + ' < yBot:' + yBot + ' && yTop:' + yTop + ' < psblBot:' + psblBot}`);
           } else if (!isPlayY && el.isPlaying) {
             // 플레이 영역이 아닌 영상이 플레이 중일 때, 일시정지
             console.log(`${el.playerId} is paused.`);
             el.isPlaying = false;
             videojs(el.playerId).pause();
-            console.log("yTop:::" + yTop);
-            console.log("yBot:::" + yBot);
-            console.log("psblTop:::" + psblTop);
-            console.log("psblBot:::" + psblBot);
-            console.log("scrollY:::" + window.scrollY);
-            console.log(`${yBot + ' > 0 && psblTop:' + psblTop + ' < yBot:' + yBot + ' && yTop:' + yTop + ' < psblBot:' + psblBot}`);
           }
         });
       }
