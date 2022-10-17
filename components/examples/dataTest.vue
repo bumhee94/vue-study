@@ -24,6 +24,11 @@
     
               items["created_date"] = created_date;
               
+              let d = items["name"];
+              let dd = d.slice(0,1); 
+    
+              items["name"] = dd;
+              
             return items;
           })
         },
